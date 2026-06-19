@@ -566,6 +566,15 @@
 		var root = document.querySelector('.ipam-pro');
 		if (!root) return;
 
+		const logoSvg = document.querySelector('.ipam-page-logo svg');
+		if (logoSvg) {
+			console.log({
+				width: logoSvg.getBoundingClientRect().width,
+				height: logoSvg.getBoundingClientRect().height,
+				computed: getComputedStyle(logoSvg)
+			});
+		}
+
 		applyTheme();
 		animateStats();
 		animateProgressBars();
