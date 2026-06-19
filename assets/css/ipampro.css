@@ -94,14 +94,14 @@ body.theme-dark .ipam-pro,
 
 /* ── Icon sizes & canvas constraints ───────────────────────── */
 .ipam-pro .icon {
-	width: 24px;
-	height: 24px;
-	flex-shrink: 0;
+	width: 24px !important;
+	height: 24px !important;
+	flex-shrink: 0 !important;
 }
 
 .ipam-pro .kpi-card svg {
-	width: 24px;
-	height: 24px;
+	width: 24px !important;
+	height: 24px !important;
 }
 
 .ipam-pro canvas {
