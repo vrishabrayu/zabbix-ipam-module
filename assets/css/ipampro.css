@@ -1439,3 +1439,14 @@ body.theme-dark .ipam-pro,
     display: block !important;
     flex: none !important;
 }
+
+.ipam-pro svg.icon {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    min-height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    display: inline-block !important;
+    flex: none !important;
+}

@@ -98,6 +98,9 @@ $unused_networks = array_values(array_filter($data['subnets'], static fn($s) =>
 ?>
 
 <div class="ipam-pro" data-ipam-tab="<?= $h($tab) ?>">
+<style>
+<?= file_get_contents(dirname(__DIR__) . '/assets/css/ipampro.css') ?>
+</style>
 
 	<div class="ipam-page-header">
 		<div class="ipam-page-brand">
@@ -995,4 +998,7 @@ $unused_networks = array_values(array_filter($data['subnets'], static fn($s) =>
 	</dialog>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+	<script>
+	<?= file_get_contents(dirname(__DIR__) . '/assets/js/ipampro.js') ?>
+	</script>
 </div>
