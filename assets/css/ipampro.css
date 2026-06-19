@@ -1,0 +1,1390 @@
+/* ============================================================
+   IPAM Pro – Enterprise UI (Zabbix 7.4 compatible)
+   NetBox / phpIPAM inspired · Light + Dark themes
+   ============================================================ */
+
+.ipam-pro {
+	--ipam-blue: #2563eb;
+	--ipam-blue-light: #dbeafe;
+	--ipam-blue-dark: #1d4ed8;
+	--ipam-green: #16a34a;
+	--ipam-green-light: #dcfce7;
+	--ipam-red: #dc2626;
+	--ipam-red-light: #fee2e2;
+	--ipam-orange: #ea580c;
+	--ipam-orange-light: #ffedd5;
+	--ipam-gray-50: #f8fafc;
+	--ipam-gray-100: #f1f5f9;
+	--ipam-gray-200: #e2e8f0;
+	--ipam-gray-300: #cbd5e1;
+	--ipam-gray-400: #94a3b8;
+	--ipam-gray-500: #64748b;
+	--ipam-gray-600: #475569;
+	--ipam-gray-700: #334155;
+	--ipam-gray-800: #1e293b;
+	--ipam-gray-900: #0f172a;
+	--ipam-bg: #f1f5f9;
+	--ipam-surface: #ffffff;
+	--ipam-surface-2: #f8fafc;
+	--ipam-text: #0f172a;
+	--ipam-text-muted: #64748b;
+	--ipam-border: #e2e8f0;
+	--ipam-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.08);
+	--ipam-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+	--ipam-shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+	--ipam-radius: 10px;
+	--ipam-radius-sm: 6px;
+	--ipam-transition: 0.2s ease;
+	--ipam-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--ipam-mono: "SF Mono", "Cascadia Code", "Consolas", "Courier New", monospace;
+
+	box-sizing: border-box;
+	color: var(--ipam-text);
+	display: flex;
+	flex-direction: column;
+	font-family: var(--ipam-font);
+	font-size: 14px;
+	line-height: 1.5;
+	margin: -12px -16px 0;
+	min-width: 0;
+	width: calc(100% + 32px);
+}
+
+.ipam-pro *,
+.ipam-pro *::before,
+.ipam-pro *::after {
+	box-sizing: border-box;
+}
+
+/* ── Zabbix dark theme integration ─────────────────────────── */
+body.dark-theme .ipam-pro,
+html.theme-dark .ipam-pro,
+html[data-theme="dark"] .ipam-pro,
+body.theme-dark .ipam-pro,
+.ipam-pro.ipam-theme-dark {
+	--ipam-blue: #3b82f6;
+	--ipam-blue-light: #1e3a5f;
+	--ipam-blue-dark: #60a5fa;
+	--ipam-green: #22c55e;
+	--ipam-green-light: #14532d;
+	--ipam-red: #ef4444;
+	--ipam-red-light: #450a0a;
+	--ipam-orange: #f97316;
+	--ipam-orange-light: #431407;
+	--ipam-gray-50: #1e293b;
+	--ipam-gray-100: #1e293b;
+	--ipam-gray-200: #334155;
+	--ipam-gray-300: #475569;
+	--ipam-gray-400: #64748b;
+	--ipam-gray-500: #94a3b8;
+	--ipam-gray-600: #cbd5e1;
+	--ipam-gray-700: #e2e8f0;
+	--ipam-gray-800: #f1f5f9;
+	--ipam-gray-900: #f8fafc;
+	--ipam-bg: #0f172a;
+	--ipam-surface: #1e293b;
+	--ipam-surface-2: #334155;
+	--ipam-text: #f1f5f9;
+	--ipam-text-muted: #94a3b8;
+	--ipam-border: #334155;
+	--ipam-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+	--ipam-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+	--ipam-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Page header ───────────────────────────────────────────── */
+.ipam-page-header {
+	align-items: center;
+	background: var(--ipam-surface);
+	border-bottom: 1px solid var(--ipam-border);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: space-between;
+	padding: 18px 24px;
+}
+
+.ipam-page-brand {
+	align-items: center;
+	display: flex;
+	gap: 14px;
+}
+
+.ipam-page-logo {
+	align-items: center;
+	background: linear-gradient(135deg, var(--ipam-blue), var(--ipam-blue-dark));
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	color: #fff;
+	display: flex;
+	flex-shrink: 0;
+	height: 44px;
+	justify-content: center;
+	width: 44px;
+}
+
+.ipam-page-logo svg {
+	height: 24px;
+	width: 24px;
+}
+
+.ipam-page-title h1 {
+	color: var(--ipam-text);
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.2;
+	margin: 0;
+}
+
+.ipam-subtitle {
+	color: var(--ipam-text-muted);
+	font-size: 13px;
+	margin: 2px 0 0;
+}
+
+.ipam-search-bar {
+	display: flex;
+	flex: 1;
+	gap: 8px;
+	max-width: 480px;
+	min-width: 220px;
+}
+
+.ipam-search-bar input {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	color: var(--ipam-text);
+	flex: 1;
+	font-size: 14px;
+	height: 40px;
+	padding: 0 14px 0 38px;
+	transition: border-color var(--ipam-transition), box-shadow var(--ipam-transition);
+}
+
+.ipam-search-wrap {
+	flex: 1;
+	position: relative;
+}
+
+.ipam-search-wrap svg {
+	color: var(--ipam-text-muted);
+	height: 18px;
+	left: 12px;
+	pointer-events: none;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 18px;
+}
+
+.ipam-search-bar input:focus {
+	border-color: var(--ipam-blue);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+	outline: none;
+}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.ipam-btn {
+	align-items: center;
+	border: 0;
+	border-radius: var(--ipam-radius-sm);
+	cursor: pointer;
+	display: inline-flex;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 600;
+	gap: 6px;
+	height: 36px;
+	justify-content: center;
+	padding: 0 14px;
+	text-decoration: none;
+	transition: background var(--ipam-transition), color var(--ipam-transition),
+		box-shadow var(--ipam-transition), transform var(--ipam-transition);
+	white-space: nowrap;
+}
+
+.ipam-btn:active { transform: scale(0.98); }
+
+.ipam-btn-primary {
+	background: var(--ipam-blue);
+	box-shadow: var(--ipam-shadow-sm);
+	color: #fff;
+}
+
+.ipam-btn-primary:hover {
+	background: var(--ipam-blue-dark);
+	box-shadow: var(--ipam-shadow);
+}
+
+.ipam-btn-secondary {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	color: var(--ipam-text);
+}
+
+.ipam-btn-secondary:hover {
+	background: var(--ipam-surface-2);
+	border-color: var(--ipam-gray-300);
+}
+
+.ipam-btn-danger {
+	background: var(--ipam-red);
+	color: #fff;
+}
+
+.ipam-btn-danger:hover { filter: brightness(1.08); }
+
+.ipam-btn-scan {
+	background: var(--ipam-blue-light);
+	border: 1px solid rgba(37, 99, 235, 0.25);
+	color: var(--ipam-blue);
+}
+
+.ipam-btn-scan:hover { filter: brightness(1.05); }
+
+.ipam-btn-ghost {
+	background: transparent;
+	border: 1px solid transparent;
+	color: var(--ipam-text-muted);
+}
+
+.ipam-btn-ghost:hover {
+	background: var(--ipam-surface-2);
+	color: var(--ipam-text);
+}
+
+.ipam-btn-sm {
+	font-size: 12px;
+	height: 30px;
+	padding: 0 10px;
+}
+
+.ipam-btn svg {
+	flex-shrink: 0;
+	height: 14px;
+	width: 14px;
+}
+
+/* ── Tab navigation ────────────────────────────────────────── */
+.ipam-nav {
+	background: var(--ipam-surface);
+	border-bottom: 1px solid var(--ipam-border);
+	display: flex;
+	gap: 4px;
+	overflow-x: auto;
+	padding: 0 24px;
+	scrollbar-width: thin;
+}
+
+.ipam-nav a {
+	align-items: center;
+	border-bottom: 3px solid transparent;
+	color: var(--ipam-text-muted);
+	display: inline-flex;
+	font-size: 14px;
+	font-weight: 600;
+	gap: 8px;
+	margin-bottom: -1px;
+	padding: 14px 16px;
+	text-decoration: none;
+	transition: color var(--ipam-transition), border-color var(--ipam-transition),
+		background var(--ipam-transition);
+	white-space: nowrap;
+}
+
+.ipam-nav a:hover {
+	background: var(--ipam-surface-2);
+	color: var(--ipam-blue);
+}
+
+.ipam-nav a.active {
+	border-bottom-color: var(--ipam-blue);
+	color: var(--ipam-blue);
+}
+
+.ipam-nav-icon {
+	align-items: center;
+	display: inline-flex;
+	height: 18px;
+	justify-content: center;
+	width: 18px;
+}
+
+.ipam-nav-icon svg {
+	height: 18px;
+	width: 18px;
+}
+
+/* ── Content area ──────────────────────────────────────────── */
+.ipam-content {
+	background: var(--ipam-bg);
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: 20px;
+	padding: 24px;
+}
+
+/* ── Alerts ────────────────────────────────────────────────── */
+.ipam-alert {
+	align-items: center;
+	border-radius: var(--ipam-radius);
+	border-left: 4px solid;
+	display: flex;
+	font-size: 14px;
+	font-weight: 500;
+	gap: 10px;
+	padding: 14px 18px;
+}
+
+.ipam-alert.error {
+	background: var(--ipam-red-light);
+	border-color: var(--ipam-red);
+	color: var(--ipam-red);
+}
+
+.ipam-alert.success {
+	background: var(--ipam-green-light);
+	border-color: var(--ipam-green);
+	color: var(--ipam-green);
+}
+
+/* ── KPI stat cards (3×2 grid) ─────────────────────────────── */
+.ipam-stats-row {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 1100px) {
+	.ipam-stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+	.ipam-stats-row { grid-template-columns: 1fr; }
+}
+
+.ipam-stat {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	overflow: hidden;
+	padding: 20px;
+	position: relative;
+	transition: box-shadow var(--ipam-transition), transform var(--ipam-transition);
+}
+
+.ipam-stat:hover {
+	box-shadow: var(--ipam-shadow);
+	transform: translateY(-2px);
+}
+
+.ipam-stat-header {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+}
+
+.ipam-stat-icon {
+	align-items: center;
+	border-radius: var(--ipam-radius-sm);
+	display: flex;
+	flex-shrink: 0;
+	height: 40px;
+	justify-content: center;
+	width: 40px;
+}
+
+.ipam-stat-icon svg {
+	height: 20px;
+	width: 20px;
+}
+
+.ipam-stat-label {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ipam-stat-value {
+	color: var(--ipam-text);
+	font-size: 32px;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+	line-height: 1.1;
+}
+
+.ipam-stat-meta {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+}
+
+.ipam-stat.blue  { border-top: 3px solid var(--ipam-blue); }
+.ipam-stat.green { border-top: 3px solid var(--ipam-green); }
+.ipam-stat.red   { border-top: 3px solid var(--ipam-red); }
+.ipam-stat.orange{ border-top: 3px solid var(--ipam-orange); }
+
+.ipam-stat.blue   .ipam-stat-icon { background: var(--ipam-blue-light); color: var(--ipam-blue); }
+.ipam-stat.green  .ipam-stat-icon { background: var(--ipam-green-light); color: var(--ipam-green); }
+.ipam-stat.red    .ipam-stat-icon { background: var(--ipam-red-light); color: var(--ipam-red); }
+.ipam-stat.orange .ipam-stat-icon { background: var(--ipam-orange-light); color: var(--ipam-orange); }
+
+/* ── Dashboard charts grid ───────────────────────────────────── */
+.ipam-dash-grid {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: 1fr 1fr;
+}
+
+.ipam-dash-grid .ipam-card.span-2 { grid-column: span 2; }
+
+@media (max-width: 1200px) {
+	.ipam-dash-grid { grid-template-columns: 1fr; }
+	.ipam-dash-grid .ipam-card.span-2 { grid-column: span 1; }
+}
+
+/* ── Cards ───────────────────────────────────────────────────── */
+.ipam-card {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	overflow: hidden;
+	transition: box-shadow var(--ipam-transition);
+}
+
+.ipam-card:hover { box-shadow: var(--ipam-shadow); }
+
+.ipam-card-header {
+	align-items: center;
+	border-bottom: 1px solid var(--ipam-border);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	justify-content: space-between;
+	padding: 16px 20px;
+}
+
+.ipam-card-title {
+	color: var(--ipam-text);
+	font-size: 15px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.ipam-card-body {
+	padding: 20px;
+}
+
+.ipam-chart-wrap {
+	height: 260px;
+	position: relative;
+}
+
+.ipam-chart-wrap.sm { height: 200px; }
+
+/* ── Progress bars ───────────────────────────────────────────── */
+.ipam-progress {
+	background: var(--ipam-gray-200);
+	border-radius: 999px;
+	height: 8px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.ipam-progress-bar {
+	border-radius: inherit;
+	height: 100%;
+	transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ipam-progress-bar.low    { background: var(--ipam-green); }
+.ipam-progress-bar.medium { background: linear-gradient(90deg, var(--ipam-green), var(--ipam-orange)); }
+.ipam-progress-bar.high   { background: linear-gradient(90deg, var(--ipam-orange), var(--ipam-red)); }
+
+.ipam-util-cell {
+	align-items: center;
+	display: flex;
+	gap: 10px;
+	min-width: 140px;
+}
+
+.ipam-util-pct {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+	font-weight: 700;
+	min-width: 42px;
+	text-align: right;
+}
+
+/* ── Utilization list ────────────────────────────────────────── */
+.ipam-util-list {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+.ipam-util-meta {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.ipam-util-label a {
+	color: var(--ipam-blue);
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.ipam-util-label a:hover { text-decoration: underline; }
+
+/* ── Gauges (Network Overview) ───────────────────────────────── */
+.ipam-gauge-grid {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+.ipam-gauge {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	padding: 16px;
+	text-align: center;
+}
+
+.ipam-gauge-ring {
+	height: 100px;
+	margin: 0 auto 8px;
+	position: relative;
+	width: 100px;
+}
+
+.ipam-gauge-ring canvas {
+	height: 100px !important;
+	width: 100px !important;
+}
+
+.ipam-gauge-label {
+	color: var(--ipam-text-muted);
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.ipam-gauge-value {
+	color: var(--ipam-text);
+	font-size: 18px;
+	font-weight: 700;
+}
+
+/* ── Network info cards ──────────────────────────────────────── */
+.ipam-netinfo-grid {
+	display: grid;
+	gap: 14px;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	margin-bottom: 20px;
+}
+
+.ipam-netinfo-card {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	padding: 16px;
+	transition: border-color var(--ipam-transition);
+}
+
+.ipam-netinfo-card:hover { border-color: var(--ipam-blue); }
+
+.ipam-netinfo-label {
+	color: var(--ipam-text-muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	margin-bottom: 6px;
+	text-transform: uppercase;
+}
+
+.ipam-netinfo-value {
+	color: var(--ipam-text);
+	font-family: var(--ipam-mono);
+	font-size: 14px;
+	font-weight: 600;
+	word-break: break-all;
+}
+
+/* ── Badges ──────────────────────────────────────────────────── */
+.ipam-badge {
+	align-items: center;
+	border-radius: 999px;
+	display: inline-flex;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	padding: 4px 10px;
+	text-transform: capitalize;
+}
+
+.ipam-badge.used     { background: var(--ipam-green-light); color: var(--ipam-green); }
+.ipam-badge.free     { background: var(--ipam-gray-100); color: var(--ipam-gray-500); }
+.ipam-badge.reserved { background: var(--ipam-blue-light); color: var(--ipam-blue); }
+.ipam-badge.active   { background: var(--ipam-green-light); color: var(--ipam-green); }
+.ipam-badge.planned  { background: var(--ipam-blue-light); color: var(--ipam-blue); }
+.ipam-badge.disabled { background: var(--ipam-gray-100); color: var(--ipam-gray-500); }
+.ipam-badge.zabbix   { background: var(--ipam-blue-light); color: var(--ipam-blue); }
+.ipam-badge.completed{ background: var(--ipam-green-light); color: var(--ipam-green); }
+.ipam-badge.failed   { background: var(--ipam-red-light); color: var(--ipam-red); }
+.ipam-badge.running  { background: var(--ipam-orange-light); color: var(--ipam-orange); }
+
+.ipam-vlan-badge {
+	border-radius: var(--ipam-radius-sm);
+	color: #fff;
+	display: inline-flex;
+	font-size: 12px;
+	font-weight: 700;
+	padding: 4px 10px;
+}
+
+/* ── Toolbar ─────────────────────────────────────────────────── */
+.ipam-toolbar {
+	align-items: center;
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	padding: 14px 18px;
+}
+
+.ipam-toolbar-group {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.ipam-toolbar label {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.ipam-toolbar input,
+.ipam-toolbar select,
+.ipam-form-inline input,
+.ipam-form-inline select,
+.ipam-form-field input,
+.ipam-form-field select {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius-sm);
+	color: var(--ipam-text);
+	font-family: inherit;
+	font-size: 13px;
+	height: 36px;
+	padding: 0 12px;
+	transition: border-color var(--ipam-transition);
+}
+
+.ipam-toolbar input:focus,
+.ipam-toolbar select:focus,
+.ipam-form-inline input:focus,
+.ipam-form-inline select:focus {
+	border-color: var(--ipam-blue);
+	outline: none;
+}
+
+.ipam-toolbar-sep {
+	background: var(--ipam-border);
+	height: 28px;
+	width: 1px;
+}
+
+.ipam-pagination {
+	align-items: center;
+	color: var(--ipam-text-muted);
+	display: flex;
+	font-size: 13px;
+	gap: 8px;
+	margin-left: auto;
+}
+
+.ipam-pagination button {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius-sm);
+	color: var(--ipam-text);
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	height: 32px;
+	min-width: 32px;
+	padding: 0 10px;
+	transition: background var(--ipam-transition);
+}
+
+.ipam-pagination button:hover:not(:disabled) {
+	background: var(--ipam-blue-light);
+	border-color: var(--ipam-blue);
+	color: var(--ipam-blue);
+}
+
+.ipam-pagination button:disabled {
+	cursor: not-allowed;
+	opacity: 0.4;
+}
+
+.ipam-page-info {
+	font-weight: 600;
+	min-width: 100px;
+	text-align: center;
+}
+
+/* ── Forms ───────────────────────────────────────────────────── */
+.ipam-form-panel {
+	background: var(--ipam-blue-light);
+	border-color: rgba(37, 99, 235, 0.2);
+}
+
+.ipam-form-panel .ipam-card-header { border-bottom-color: rgba(37, 99, 235, 0.15); }
+.ipam-form-panel .ipam-card-title { color: var(--ipam-blue); }
+
+.ipam-form-inline {
+	align-items: end;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	padding: 16px 20px;
+}
+
+.ipam-form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.ipam-form-field label {
+	color: var(--ipam-text-muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.ipam-form-field input,
+.ipam-form-field select { min-width: 150px; }
+.ipam-form-field.wide input { min-width: 220px; }
+
+/* ── Tables ──────────────────────────────────────────────────── */
+.ipam-table-wrap {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	overflow: auto;
+}
+
+.ipam-table {
+	border-collapse: separate;
+	border-spacing: 0;
+	min-width: 100%;
+	width: 100%;
+}
+
+.ipam-table thead th {
+	background: var(--ipam-surface-2);
+	border-bottom: 2px solid var(--ipam-border);
+	color: var(--ipam-text-muted);
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	padding: 12px 16px;
+	position: sticky;
+	text-align: left;
+	text-transform: uppercase;
+	top: 0;
+	white-space: nowrap;
+	z-index: 2;
+}
+
+.ipam-table thead th[data-sortable] {
+	cursor: pointer;
+	user-select: none;
+}
+
+.ipam-table thead th[data-sortable]:hover {
+	color: var(--ipam-blue);
+}
+
+.ipam-table thead th .sort-icon {
+	display: inline-block;
+	margin-left: 4px;
+	opacity: 0.4;
+}
+
+.ipam-table thead th.sorted-asc .sort-icon,
+.ipam-table thead th.sorted-desc .sort-icon {
+	color: var(--ipam-blue);
+	opacity: 1;
+}
+
+.ipam-table tbody tr {
+	border-bottom: 1px solid var(--ipam-border);
+	transition: background var(--ipam-transition);
+}
+
+.ipam-table tbody tr:hover { background: var(--ipam-surface-2); }
+.ipam-table tbody tr:last-child { border-bottom: 0; }
+.ipam-table tbody tr.ipam-hidden { display: none; }
+
+.ipam-table td {
+	padding: 12px 16px;
+	vertical-align: middle;
+}
+
+.ipam-table .ipam-td-primary {
+	color: var(--ipam-text);
+	font-weight: 600;
+}
+
+.ipam-table .ipam-td-sub {
+	color: var(--ipam-text-muted);
+	display: block;
+	font-size: 12px;
+	margin-top: 2px;
+}
+
+.ipam-table .ipam-td-mono {
+	font-family: var(--ipam-mono);
+	font-size: 13px;
+}
+
+.ipam-table input[type="checkbox"] {
+	accent-color: var(--ipam-blue);
+	cursor: pointer;
+	height: 16px;
+	width: 16px;
+}
+
+/* ── Row actions ─────────────────────────────────────────────── */
+.ipam-row-actions {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.ipam-row-actions form { margin: 0; }
+
+/* ── Edit dropdown ───────────────────────────────────────────── */
+.ipam-edit-wrap { position: relative; }
+
+.ipam-edit-toggle {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius-sm);
+	color: var(--ipam-blue);
+	cursor: pointer;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	height: 30px;
+	padding: 0 10px;
+	transition: background var(--ipam-transition);
+}
+
+.ipam-edit-toggle:hover { background: var(--ipam-blue-light); }
+
+.ipam-edit-panel {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-lg);
+	display: none;
+	min-width: 260px;
+	padding: 16px;
+	position: absolute;
+	right: 0;
+	top: calc(100% + 6px);
+	z-index: 200;
+}
+
+.ipam-edit-panel.open { display: block; }
+
+.ipam-edit-panel h4 {
+	color: var(--ipam-text);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	margin: 0 0 12px;
+	text-transform: uppercase;
+}
+
+.ipam-edit-panel .ipam-field-row {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	margin-bottom: 10px;
+}
+
+.ipam-edit-panel .ipam-field-row label {
+	color: var(--ipam-text-muted);
+	font-size: 11px;
+	font-weight: 600;
+}
+
+.ipam-edit-panel input,
+.ipam-edit-panel select {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius-sm);
+	color: var(--ipam-text);
+	font-size: 13px;
+	height: 34px;
+	padding: 0 10px;
+	width: 100%;
+}
+
+.ipam-edit-actions {
+	border-top: 1px solid var(--ipam-border);
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+	padding-top: 12px;
+}
+
+/* ── Subnet picker ───────────────────────────────────────────── */
+.ipam-subnet-picker {
+	align-items: center;
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 14px 18px;
+}
+
+.ipam-subnet-picker-label {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.ipam-subnet-picker a {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius-sm);
+	color: var(--ipam-text);
+	font-family: var(--ipam-mono);
+	font-size: 12px;
+	font-weight: 600;
+	padding: 6px 12px;
+	text-decoration: none;
+	transition: background var(--ipam-transition), border-color var(--ipam-transition);
+}
+
+.ipam-subnet-picker a:hover,
+.ipam-subnet-picker a.active {
+	background: var(--ipam-blue-light);
+	border-color: var(--ipam-blue);
+	color: var(--ipam-blue);
+}
+
+/* ── Network overview IP grid ────────────────────────────────── */
+.ipam-overview-header {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 14px;
+	justify-content: space-between;
+}
+
+.ipam-overview-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.ipam-legend-item {
+	align-items: center;
+	color: var(--ipam-text-muted);
+	display: flex;
+	font-size: 12px;
+	gap: 6px;
+}
+
+.ipam-legend-dot {
+	border-radius: 50%;
+	display: inline-block;
+	height: 10px;
+	width: 10px;
+}
+
+.ipam-legend-dot.used     { background: var(--ipam-red); }
+.ipam-legend-dot.free     { background: var(--ipam-green); }
+.ipam-legend-dot.reserved { background: var(--ipam-orange); }
+
+.ipam-block-grid {
+	display: grid;
+	gap: 4px;
+	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+	padding: 16px 20px;
+}
+
+.ipam-ip-block {
+	aspect-ratio: 1;
+	border: 0;
+	border-radius: 4px;
+	color: #fff;
+	cursor: pointer;
+	font-family: var(--ipam-mono);
+	font-size: 10px;
+	font-weight: 700;
+	min-width: 0;
+	transition: transform var(--ipam-transition), filter var(--ipam-transition);
+}
+
+.ipam-ip-block.used     { background: var(--ipam-red); }
+.ipam-ip-block.free     { background: var(--ipam-green); }
+.ipam-ip-block.reserved { background: var(--ipam-orange); color: #fff; }
+
+.ipam-ip-block:hover {
+	filter: brightness(1.15);
+	transform: scale(1.12);
+	z-index: 1;
+}
+
+/* ── VLAN table color strip ──────────────────────────────────── */
+.ipam-vlan-color {
+	border-radius: 3px;
+	display: inline-block;
+	height: 28px;
+	vertical-align: middle;
+	width: 4px;
+}
+
+/* ── Reports ─────────────────────────────────────────────────── */
+.ipam-report-grid {
+	display: grid;
+	gap: 20px;
+	grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 900px) {
+	.ipam-report-grid { grid-template-columns: 1fr; }
+}
+
+.ipam-report-card {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	display: flex;
+	flex-direction: column;
+	min-height: 280px;
+	padding: 20px;
+	transition: box-shadow var(--ipam-transition), transform var(--ipam-transition);
+}
+
+.ipam-report-card:hover {
+	box-shadow: var(--ipam-shadow);
+	transform: translateY(-2px);
+}
+
+.ipam-report-header {
+	align-items: flex-start;
+	display: flex;
+	gap: 14px;
+	margin-bottom: 16px;
+}
+
+.ipam-report-icon {
+	align-items: center;
+	background: var(--ipam-blue-light);
+	border-radius: var(--ipam-radius);
+	color: var(--ipam-blue);
+	display: flex;
+	flex-shrink: 0;
+	height: 44px;
+	justify-content: center;
+	width: 44px;
+}
+
+.ipam-report-icon svg {
+	height: 22px;
+	width: 22px;
+}
+
+.ipam-report-title {
+	color: var(--ipam-text);
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0 0 4px;
+}
+
+.ipam-report-desc {
+	color: var(--ipam-text-muted);
+	font-size: 13px;
+	line-height: 1.4;
+	margin: 0;
+}
+
+.ipam-report-list {
+	border-top: 1px solid var(--ipam-border);
+	flex: 1;
+	margin: 0;
+	overflow: auto;
+	padding: 0;
+}
+
+.ipam-report-item {
+	align-items: center;
+	border-bottom: 1px solid var(--ipam-border);
+	display: flex;
+	font-size: 13px;
+	gap: 10px;
+	padding: 10px 0;
+}
+
+.ipam-report-item:last-child { border-bottom: 0; }
+
+.ipam-report-item-label {
+	color: var(--ipam-text);
+	flex: 1;
+	font-family: var(--ipam-mono);
+	font-weight: 600;
+}
+
+.ipam-report-item-value {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.ipam-report-footer {
+	border-top: 1px solid var(--ipam-border);
+	margin-top: auto;
+	padding-top: 14px;
+}
+
+/* ── Scan table (dashboard) ──────────────────────────────────── */
+.ipam-scan-table {
+	width: 100%;
+}
+
+.ipam-scan-table td {
+	font-size: 13px;
+	padding: 10px 0;
+}
+
+.ipam-scan-table tr {
+	border-bottom: 1px solid var(--ipam-border);
+}
+
+.ipam-scan-table tr:last-child { border-bottom: 0; }
+
+.ipam-scan-subnet {
+	color: var(--ipam-text);
+	font-family: var(--ipam-mono);
+	font-weight: 600;
+}
+
+.ipam-scan-time {
+	color: var(--ipam-text-muted);
+	font-size: 12px;
+}
+
+/* ── Dialog ──────────────────────────────────────────────────── */
+.ipam-dialog {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-lg);
+	color: var(--ipam-text);
+	max-width: 540px;
+	padding: 0;
+	width: min(540px, calc(100vw - 32px));
+}
+
+.ipam-dialog::backdrop {
+	backdrop-filter: blur(2px);
+	background: rgba(15, 23, 42, 0.5);
+}
+
+.ipam-dialog-header {
+	align-items: center;
+	border-bottom: 1px solid var(--ipam-border);
+	display: flex;
+	justify-content: space-between;
+	padding: 18px 22px;
+}
+
+.ipam-dialog-header h3 {
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0;
+}
+
+.ipam-dialog-close {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: var(--ipam-radius-sm);
+	color: var(--ipam-text-muted);
+	cursor: pointer;
+	font-size: 16px;
+	height: 32px;
+	line-height: 1;
+	padding: 0;
+	width: 32px;
+}
+
+.ipam-dialog-close:hover {
+	background: var(--ipam-red-light);
+	border-color: var(--ipam-red);
+	color: var(--ipam-red);
+}
+
+.ipam-dialog-body { padding: 22px; }
+
+.ipam-detail-grid {
+	display: grid;
+	gap: 12px;
+	grid-template-columns: 130px 1fr;
+}
+
+.ipam-detail-grid dt {
+	color: var(--ipam-text-muted);
+	font-size: 11px;
+	font-weight: 700;
+	padding-top: 2px;
+	text-transform: uppercase;
+}
+
+.ipam-detail-grid dd {
+	color: var(--ipam-text);
+	font-size: 14px;
+	font-weight: 500;
+	margin: 0;
+}
+
+/* ── Setup notice ────────────────────────────────────────────── */
+.ipam-setup-notice {
+	background: var(--ipam-surface);
+	border: 1px solid var(--ipam-border);
+	border-left: 4px solid var(--ipam-orange);
+	border-radius: var(--ipam-radius);
+	box-shadow: var(--ipam-shadow-sm);
+	max-width: 800px;
+	padding: 28px;
+}
+
+.ipam-setup-notice h2 {
+	color: var(--ipam-orange);
+	font-size: 18px;
+	margin: 0 0 14px;
+}
+
+.ipam-setup-notice p {
+	color: var(--ipam-text-muted);
+	line-height: 1.6;
+	margin: 0 0 12px;
+}
+
+.ipam-setup-notice pre {
+	background: var(--ipam-gray-900);
+	border-radius: var(--ipam-radius-sm);
+	color: #86efac;
+	font-size: 13px;
+	overflow-x: auto;
+	padding: 16px;
+}
+
+.ipam-setup-notice code {
+	background: var(--ipam-surface-2);
+	border-radius: 4px;
+	font-family: var(--ipam-mono);
+	font-size: 12px;
+	padding: 2px 6px;
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.ipam-empty {
+	align-items: center;
+	color: var(--ipam-text-muted);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 48px 24px;
+	text-align: center;
+}
+
+.ipam-empty-icon {
+	color: var(--ipam-gray-400);
+	height: 48px;
+	width: 48px;
+}
+
+.ipam-empty-text {
+	font-size: 15px;
+	font-weight: 600;
+}
+
+/* ── Bulk action bar ─────────────────────────────────────────── */
+.ipam-bulk-bar {
+	align-items: center;
+	background: var(--ipam-blue-light);
+	border: 1px solid rgba(37, 99, 235, 0.2);
+	border-radius: var(--ipam-radius);
+	display: none;
+	gap: 12px;
+	padding: 12px 18px;
+}
+
+.ipam-bulk-bar.visible { display: flex; }
+
+.ipam-bulk-count {
+	color: var(--ipam-blue);
+	font-size: 13px;
+	font-weight: 700;
+}
+
+/* ── Filter chips ────────────────────────────────────────────── */
+.ipam-filter-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.ipam-chip {
+	background: var(--ipam-surface-2);
+	border: 1px solid var(--ipam-border);
+	border-radius: 999px;
+	color: var(--ipam-text-muted);
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 5px 12px;
+	transition: background var(--ipam-transition), border-color var(--ipam-transition);
+}
+
+.ipam-chip:hover,
+.ipam-chip.active {
+	background: var(--ipam-blue-light);
+	border-color: var(--ipam-blue);
+	color: var(--ipam-blue);
+}

@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2.0,
+  "id": "ipampro",
+  "name": "IPAM Pro",
+  "version": "1.0.0",
+  "namespace": "IPAMPro",
+  "author": "Codex",
+  "description": "Enterprise IP address management, subnet scanning, VLAN inventory, reservations, and Zabbix host synchronization.",
+  "actions": {
+    "ipampro.view": {
+      "class": "CControllerIpamPro",
+      "view": "ipampro.view",
+      "layout": "layout.htmlpage"
+    },
+    "ipampro.view": {
+      "class": "CControllerIpamPro",
+      "view": "ipampro.view",
+      "layout": "layout.htmlpage"
+    }
+  }
+}
