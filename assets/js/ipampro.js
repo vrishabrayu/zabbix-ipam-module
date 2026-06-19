@@ -70,19 +70,21 @@
 
 	/* ── Confirm on dangerous forms ──────────────────────────── */
 	document.addEventListener('submit', function (e) {
+		if (!e.target.closest('.ipam-pro')) return;
 		var msg = e.target.getAttribute('data-ipam-confirm');
 		if (msg && !window.confirm(msg)) e.preventDefault();
 	});
 
 	/* ── Edit panel toggle ───────────────────────────────────── */
 	document.addEventListener('click', function (e) {
+		if (!e.target.closest('.ipam-pro')) return;
 		var toggle = e.target.closest('[data-edit-toggle]');
 		if (toggle) {
 			var wrap = toggle.closest('[data-edit-wrap]');
 			var panel = wrap && wrap.querySelector('[data-edit-panel]');
 			if (!panel) return;
 			var isOpen = panel.classList.contains('open');
-			document.querySelectorAll('[data-edit-panel].open').forEach(function (p) {
+			document.querySelectorAll('.ipam-pro [data-edit-panel].open').forEach(function (p) {
 				p.classList.remove('open');
 			});
 			if (!isOpen) panel.classList.add('open');
@@ -95,20 +97,21 @@
 			return;
 		}
 		if (!e.target.closest('[data-edit-wrap]')) {
-			document.querySelectorAll('[data-edit-panel].open').forEach(function (p) {
+			document.querySelectorAll('.ipam-pro [data-edit-panel].open').forEach(function (p) {
 				p.classList.remove('open');
 			});
 		}
 	});
 
 	/* ── IP detail dialog ────────────────────────────────────── */
-	var dialog = document.querySelector('[data-ipam-dialog]');
-	var dialogBody = dialog && dialog.querySelector('[data-ipam-dialog-body]');
-	var dialogTitle = dialog && dialog.querySelector('[data-dialog-title]');
-
 	document.addEventListener('click', function (e) {
+		if (!e.target.closest('.ipam-pro')) return;
 		var block = e.target.closest('[data-ipam-detail]');
-		if (!block || !dialog) return;
+		if (!block) return;
+		var dialog = document.querySelector('.ipam-pro [data-ipam-dialog]');
+		if (!dialog) return;
+		var dialogBody = dialog.querySelector('[data-ipam-dialog-body]');
+		var dialogTitle = dialog.querySelector('[data-dialog-title]');
 		var ip;
 		try { ip = JSON.parse(block.getAttribute('data-ipam-detail')); }
 		catch (err) { return; }
@@ -147,7 +150,7 @@
 
 	/* ── KPI count-up animation ──────────────────────────────── */
 	function animateStats() {
-		document.querySelectorAll('.ipam-stat-value[data-count]').forEach(function (el) {
+		document.querySelectorAll('.ipam-pro .ipam-stat-value[data-count]').forEach(function (el) {
 			var raw = el.textContent.trim();
 			var num = parseFloat(String(el.getAttribute('data-count')).replace('%', ''));
 			var isPct = raw.indexOf('%') !== -1;
@@ -169,7 +172,7 @@
 
 	/* ── Progress bar animation ──────────────────────────────── */
 	function animateProgressBars() {
-		document.querySelectorAll('.ipam-progress-bar').forEach(function (bar) {
+		document.querySelectorAll('.ipam-pro .ipam-progress-bar').forEach(function (bar) {
 			var w = bar.style.width;
 			bar.style.width = '0';
 			setTimeout(function () { bar.style.width = w; }, 100);
@@ -334,7 +337,7 @@
 	/* ── Overview gauge charts ───────────────────────────────── */
 	function initGauges() {
 		if (!window.Chart) return;
-		document.querySelectorAll('[data-ipam-gauge]').forEach(function (canvas) {
+		document.querySelectorAll('.ipam-pro [data-ipam-gauge]').forEach(function (canvas) {
 			var value = parseFloat(canvas.getAttribute('data-ipam-gauge')) || 0;
 			var max = parseFloat(canvas.getAttribute('data-gauge-max')) || 100;
 			var colorKey = canvas.getAttribute('data-gauge-color') || 'blue';
@@ -373,7 +376,7 @@
 		var wrap = table.closest('.ipam-table-wrap');
 		var toolbar = wrap && wrap.previousElementSibling && wrap.previousElementSibling.matches('[data-ipam-toolbar]')
 			? wrap.previousElementSibling
-			: document.querySelector('[data-ipam-toolbar]');
+			: document.querySelector('.ipam-pro [data-ipam-toolbar]');
 		var filterInput = toolbar && toolbar.querySelector('[data-ipam-filter]');
 		var pagination = toolbar && toolbar.querySelector('[data-ipam-pagination]');
 		var pageInfo = pagination && pagination.querySelector('[data-page-info]');
@@ -512,14 +515,14 @@
 	}
 
 	function initBulkActions() {
-		var table = document.querySelector('[data-ipam-table="addresses"]');
+		var table = document.querySelector('.ipam-pro [data-ipam-table="addresses"]');
 		if (!table) return;
 
-		var bulkBar = document.querySelector('[data-ipam-bulk-bar]');
-		var bulkCount = document.querySelector('[data-ipam-bulk-count]');
+		var bulkBar = document.querySelector('.ipam-pro [data-ipam-bulk-bar]');
+		var bulkCount = document.querySelector('.ipam-pro [data-ipam-bulk-count]');
 		var selectAll = table.querySelector('[data-ipam-select-all]');
-		var exportAll = document.querySelector('[data-ipam-export-all]');
-		var exportSelected = document.querySelector('[data-ipam-bulk-export]');
+		var exportAll = document.querySelector('.ipam-pro [data-ipam-export-all]');
+		var exportSelected = document.querySelector('.ipam-pro [data-ipam-bulk-export]');
 
 		function getChecked() {
 			return Array.prototype.slice.call(table.querySelectorAll('[data-ipam-row-check]:checked'));
@@ -560,11 +563,14 @@
 
 	/* ── Init ────────────────────────────────────────────────── */
 	function init() {
+		var root = document.querySelector('.ipam-pro');
+		if (!root) return;
+
 		applyTheme();
 		animateStats();
 		animateProgressBars();
 
-		document.querySelectorAll('[data-ipam-table]').forEach(initTable);
+		root.querySelectorAll('[data-ipam-table]').forEach(initTable);
 		initBulkActions();
 
 		loadChartJs(function () {

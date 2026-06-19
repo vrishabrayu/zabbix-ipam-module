@@ -994,6 +994,5 @@ $unused_networks = array_values(array_filter($data['subnets'], static fn($s) =>
 		<div class="ipam-dialog-body" data-ipam-dialog-body></div>
 	</dialog>
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" crossorigin="anonymous"></script>
