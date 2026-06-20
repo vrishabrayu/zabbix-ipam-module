@@ -50,24 +50,24 @@ $tabs = [
 ];
 
 $icons = [
-	'logo' => '',
-	'search' => '',
-	'dashboard' => '',
-	'subnets' => '',
-	'addresses' => '',
-	'overview' => '',
-	'vlans' => '',
-	'reports' => '',
-	'subnet' => '',
-	'ip' => '',
-	'used' => '',
-	'free' => '',
-	'reserved' => '',
-	'util' => '',
-	'export' => '',
-	'scan' => '',
-	'chart' => '',
-	'empty' => '',
+	'logo'      => '',
+	'search'    => '🔍',
+	'dashboard' => '📊',
+	'subnets'   => '🌐',
+	'addresses' => '🔌',
+	'overview'  => '🗺️',
+	'vlans'     => '🏷️',
+	'reports'   => '📄',
+	'subnet'    => '🌐',
+	'ip'        => '📋',
+	'used'      => '🔴',
+	'free'      => '🟢',
+	'reserved'  => '🟡',
+	'util'      => '📈',
+	'export'    => '⬇',
+	'scan'      => '📡',
+	'chart'     => '📊',
+	'empty'     => '📭',
 ];
 
 /* Build utilization trend from scan history */
@@ -104,18 +104,18 @@ $unused_networks = array_values(array_filter($data['subnets'], static fn($s) =>
 
 	<div class="ipam-page-header">
 		<div class="ipam-page-brand">
+			<div class="ipam-brand-icon">🌐</div>
 			<div class="ipam-page-title">
 				<h1>IPAM Pro</h1>
-				<p class="ipam-subtitle">Enterprise IP Address Management · Zabbix Integrated</p>
+				<p class="ipam-subtitle">IP Address Management · Zabbix Integrated</p>
 			</div>
 		</div>
 		<form class="ipam-search-bar" method="get">
 			<input type="hidden" name="action" value="ipampro.view">
 			<input type="hidden" name="tab" value="<?= $h($tab) ?>">
 			<div class="ipam-search-wrap">
-				<?= $icons['search'] ?>
 				<input name="search" value="<?= $h($data['search']) ?>"
-				       placeholder="Search IP, hostname, MAC, VLAN…">
+				       placeholder="🔍 Search IP, hostname, MAC, VLAN…">
 			</div>
 			<button type="submit" class="ipam-btn ipam-btn-primary">Search</button>
 		</form>

@@ -176,7 +176,7 @@ body.theme-dark .ipam-pro,
 	flex: 1;
 	font-size: 14px;
 	height: 40px;
-	padding: 0 14px 0 38px;
+	padding: 0 14px;
 	transition: border-color var(--ipam-transition), box-shadow var(--ipam-transition);
 }
 
@@ -324,14 +324,11 @@ body.theme-dark .ipam-pro,
 .ipam-pro .ipam-nav-icon {
 	align-items: center;
 	display: inline-flex;
-	height: 18px;
+	height: 20px;
 	justify-content: center;
-	width: 18px;
-}
-
-.ipam-pro .ipam-nav-icon svg {
-	height: 18px;
-	width: 18px;
+	width: 20px;
+	font-size: 16px;
+	line-height: 1;
 }
 
 /* ── Content area ──────────────────────────────────────────── */
@@ -372,7 +369,7 @@ body.theme-dark .ipam-pro,
 .ipam-pro .ipam-stats-row {
 	display: grid;
 	gap: 16px;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(6, 1fr);
 }
 
 @media (max-width: 1100px) {
@@ -409,7 +406,7 @@ body.theme-dark .ipam-pro,
 	justify-content: space-between;
 }
 
-.ipam-pro .ipam-stat-icon {
+.ipam-pro .ipam-stat .ipam-stat-icon {
 	align-items: center;
 	border-radius: var(--ipam-radius-sm);
 	display: flex;
@@ -417,11 +414,8 @@ body.theme-dark .ipam-pro,
 	height: 40px;
 	justify-content: center;
 	width: 40px;
-}
-
-.ipam-pro .ipam-stat-icon svg {
-	height: 20px;
-	width: 20px;
+	font-size: 20px;
+	line-height: 1;
 }
 
 .ipam-pro .ipam-stat-label {
@@ -1140,11 +1134,8 @@ body.theme-dark .ipam-pro,
 	height: 44px;
 	justify-content: center;
 	width: 44px;
-}
-
-.ipam-pro .ipam-report-icon svg {
-	height: 22px;
-	width: 22px;
+	font-size: 22px;
+	line-height: 1;
 }
 
 .ipam-pro .ipam-report-title {
@@ -1352,8 +1343,8 @@ body.theme-dark .ipam-pro,
 
 .ipam-pro .ipam-empty-icon {
 	color: var(--ipam-gray-400);
-	height: 48px;
-	width: 48px;
+	font-size: 40px;
+	line-height: 1;
 }
 
 .ipam-pro .ipam-empty-text {
@@ -1406,47 +1397,36 @@ body.theme-dark .ipam-pro,
 	color: var(--ipam-blue);
 }
 
-.ipam-pro svg {
-    width: auto !important;
-    height: auto !important;
-    max-width: unset !important;
-    max-height: unset !important;
+/* ── Brand icon (emoji pill) ─────────────────────────────────── */
+.ipam-pro .ipam-brand-icon {
+	width: 36px;
+	height: 36px;
+	min-width: 36px;
+	background: linear-gradient(135deg, var(--ipam-blue), var(--ipam-blue-dark));
+	border-radius: var(--ipam-radius-sm);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	line-height: 1;
+	flex-shrink: 0;
 }
 
-.ipam-pro .ipam-page-logo {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    max-width: 44px !important;
-    max-height: 44px !important;
-    overflow: hidden !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    flex: none !important;
+/* ── KPI stat-icon emoji size ─────────────────────────────────── */
+.ipam-pro .ipam-stat-icon {
+	font-size: 20px;
+	line-height: 1;
 }
 
-.ipam-pro .ipam-page-logo > svg {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    max-width: 24px !important;
-    max-height: 24px !important;
-
-    display: block !important;
-    flex: none !important;
+/* ── Nav icon emoji size ──────────────────────────────────────── */
+.ipam-pro .ipam-nav-icon {
+	font-size: 15px;
+	line-height: 1;
 }
 
-.ipam-pro svg.icon {
-    width: 24px !important;
-    height: 24px !important;
-    min-width: 24px !important;
-    min-height: 24px !important;
-    max-width: 24px !important;
-    max-height: 24px !important;
-    display: inline-block !important;
-    flex: none !important;
+/* ── Report icon emoji size ───────────────────────────────────── */
+.ipam-pro .ipam-report-icon {
+	font-size: 22px;
+	line-height: 1;
 }
