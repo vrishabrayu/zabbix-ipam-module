@@ -95,7 +95,17 @@ nmap now survives container restarts and rebuilds.
 1. Go to **Inventory → IPAM → Subnets**
 2. Find the subnet you want to scan
 3. Click **Scan** in the Actions column
-4. IPAM runs `nmap -sV -O -T4 -v -n <subnet>/<cidr>` (service/version detection + OS fingerprinting) against every address in that range — this is a deeper scan than a plain ping sweep, so it takes longer per subnet
+4. IPAM runs a multi-technique host discovery scan:
+   ```
+   nmap -sn -PE -PP -PS21,22,23,25,80,135,139,443,445,3389,8080 -PA80,443 --send-ip -T4 -n <subnet>/<cidr>
+   ```
+   This combines four probe techniques so it catches hosts that a plain ping sweep would miss:
+   - `-PE` ICMP echo (classic ping)
+   - `-PP` ICMP timestamp (catches hosts that block ICMP echo specifically)
+   - `-PS` TCP SYN probe on common ports (catches hosts that block ICMP entirely but still answer on open ports, e.g. some Windows/firewalled servers)
+   - `-PA` TCP ACK probe (catches hosts behind stateless firewalls that only filter SYN packets)
+
+   **No root privileges or special container capabilities are required** — unlike `-O`/`-sS`, every probe here uses normal IP-layer sockets.
 5. Responding IPs are marked **Used** (red), non-responding IPs are marked **Free** (green)
 6. Check **Reports → Recent Scans** for scan history and results
 
@@ -103,16 +113,8 @@ nmap now survives container restarts and rebuilds.
 
 ```bash
 # Run the exact command IPAM uses, to confirm nmap works from inside the container
-sudo docker exec zabbix-web nmap -sV -O -T4 -v -n 192.168.1.0/24
+sudo docker exec zabbix-web nmap -sn -PE -PP -PS21,22,23,25,80,135,139,443,445,3389,8080 -PA80,443 --send-ip -T4 -n 192.168.1.0/24
 ```
-
-> ⚠️ **`-O` (OS detection) requires root privileges.** If the web server runs as a non-root user (commonly `www-data` or UID 1997), `-O` will silently fail or return no OS guesses. To allow OS detection without running the whole web server as root, grant the `nmap` binary the `cap_net_raw` and `cap_net_admin` capabilities inside the container:
->
-> ```bash
-> sudo docker exec -u root zabbix-web setcap cap_net_raw,cap_net_admin+eip $(sudo docker exec zabbix-web which nmap)
-> ```
->
-> This lets the non-root web server user run raw-socket scans (`-O`, `-sS`, etc.) without full root access.
 
 If this works from the shell but scans still fail from the UI, check:
 - The web server user (often `www-data` or UID 1997) has permission to execute `nmap` — test with `sudo docker exec -u www-data zabbix-web nmap --version`

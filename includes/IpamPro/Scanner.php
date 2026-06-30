@@ -16,17 +16,39 @@ final class Scanner {
 			throw new \RuntimeException('Subnet was not found.');
 		}
 
-		$target  = $subnet['subnet'].'/'.$subnet['cidr'];
-		$command = $this->command('nmap', ['-sV', '-O', '-T4', '-v', '-n', $target]);
+		$target = $subnet['subnet'].'/'.$subnet['cidr'];
+
+		// Multi-technique host discovery — no root privileges required.
+		//   -sn   : ping scan, don't probe ports (discovery only)
+		//   -PE   : ICMP echo request (classic ping)
+		//   -PP   : ICMP timestamp request (catches hosts that block echo)
+		//   -PS   : TCP SYN probe on common ports (catches hosts that
+		//           block ICMP entirely but still answer on open ports)
+		//   -PA   : TCP ACK probe on common ports (catches hosts behind
+		//           stateless firewalls that only block SYN)
+		//   --send-ip : force IP-layer probes instead of raw Ethernet/ARP,
+		//           which avoids needing CAP_NET_RAW for ARP scanning
+		//   -T4   : aggressive timing — fast without sacrificing accuracy
+		//   -n    : skip reverse-DNS lookups (faster, avoids DNS timeouts)
+		// This combination catches hosts that would be missed by a plain
+		// ICMP-only ping sweep (firewalled servers, Windows hosts with
+		// ICMP disabled, etc.) without requiring -O/-sS which need root.
+		$command = $this->command('nmap', [
+			'-sn',
+			'-PE', '-PP', '-PS21,22,23,25,80,135,139,443,445,3389,8080',
+			'-PA80,443',
+			'--send-ip',
+			'-T4',
+			'-n',
+			$target,
+		]);
 		$output  = $this->run($command);
 
-		// nmap exits 0 on success; treat anything else as failed unless we
-		// still got "Nmap scan report" lines (root vs non-root differences).
 		$responding = $this->parseIps($output['text']);
 		$hasResults = count($responding) > 0;
 		$status     = ($output['exit_code'] === 0 || $hasResults) ? 'completed' : 'failed';
 		$message    = $status === 'completed'
-			? 'nmap -sV -O scan completed — '.count($responding).' host(s) discovered.'
+			? 'nmap discovery scan completed — '.count($responding).' host(s) found.'
 			: 'nmap error: '.trim($output['text']);
 
 		$counts = $this->repository->markScanResult($subnetid, $responding);
@@ -56,13 +78,13 @@ final class Scanner {
 	 * Execute a shell command and return its output and exit code.
 	 * Kept as a separate method so it can be overridden in tests.
 	 *
-	 * -sV -O scans (service/version + OS detection) are significantly
-	 * slower than a plain ping sweep, so we raise PHP's execution
-	 * time limit for the duration of the scan only.
+	 * Multi-probe discovery scans (-PE -PP -PS -PA) are still slower
+	 * than a single-technique ping sweep on large subnets, so we raise
+	 * PHP's execution time limit for the duration of the scan only.
 	 */
 	public function run(string $command): array {
 		$previousLimit = ini_get('max_execution_time');
-		set_time_limit(300); // allow up to 5 minutes for -sV -O scans
+		set_time_limit(180); // allow up to 3 minutes for large subnets
 
 		$lines     = [];
 		$exit_code = 1;
@@ -84,10 +106,10 @@ final class Scanner {
 	 *   Nmap scan report for 192.168.1.1
 	 *   Nmap scan report for router.local (192.168.1.254)
 	 *
-	 * This works for both -sn (ping sweep) and -sV -O (service/OS
-	 * detection) output, since both still emit one "Nmap scan report
-	 * for" line per discovered host — we simply ignore the additional
-	 * port/service/OS lines that -sV -O adds underneath each host.
+	 * Works for -sn discovery output regardless of which probe
+	 * technique (-PE/-PP/-PS/-PA) actually got the response — nmap
+	 * still emits exactly one "Nmap scan report for" line per host
+	 * that answered any of the probes.
 	 */
 	private function parseIps(string $text): array {
 		$ips = [];
