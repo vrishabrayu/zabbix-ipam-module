@@ -42,6 +42,76 @@ Go to **Inventory → IPAM Pro** in the left sidebar.
 
 ---
 
+## 📡 Network Scan (nmap) — Install & Usage
+
+IPAM Pro discovers live hosts in a subnet by running **nmap** from inside the `zabbix-web` container. Without nmap installed, clicking **Scan** on a subnet will fail or return no results.
+
+### Install nmap inside the Docker container
+
+```bash
+# Install nmap inside the running zabbix-web container
+sudo docker exec -u root zabbix-web apt-get update
+sudo docker exec -u root zabbix-web apt-get install -y nmap
+
+# Verify it installed correctly
+sudo docker exec zabbix-web nmap --version
+```
+
+> ⚠️ This install does **not** persist across container recreation (`docker-compose down && up`). If you rebuild the container, re-run the install command above, or bake nmap into a custom Dockerfile (see below).
+
+### Make nmap persist (recommended) — custom Dockerfile
+
+Create a `Dockerfile` that extends the official Zabbix web image:
+
+```dockerfile
+FROM zabbix/zabbix-web-nginx-mysql:latest
+
+USER root
+RUN apt-get update && apt-get install -y nmap && rm -rf /var/lib/apt/lists/*
+USER zabbix
+```
+
+Then in `docker-compose.yml`, point the `zabbix-web` service at this Dockerfile instead of the public image:
+
+```yaml
+services:
+  zabbix-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # ...rest of your existing config
+```
+
+Rebuild once:
+
+```bash
+sudo docker-compose up -d --build zabbix-web
+```
+
+nmap now survives container restarts and rebuilds.
+
+### How to run a scan
+
+1. Go to **Inventory → IPAM Pro → Subnets**
+2. Find the subnet you want to scan
+3. Click **Scan** in the Actions column
+4. IPAM Pro runs `nmap -sn <subnet>/<cidr>` (a ping sweep) against every address in that range
+5. Responding IPs are marked **Used** (red), non-responding IPs are marked **Free** (green)
+6. Check **Reports → Recent Scans** for scan history and results
+
+### Test nmap manually (troubleshooting)
+
+```bash
+# Run the exact command IPAM Pro uses, to confirm nmap works from inside the container
+sudo docker exec zabbix-web nmap -sn 192.168.1.0/24
+```
+
+If this works from the shell but scans still fail from the UI, check:
+- The web server user (often `www-data` or UID 1997) has permission to execute `nmap` — test with `sudo docker exec -u www-data zabbix-web nmap --version`
+- PHP's `exec()`/`shell_exec()` is not disabled in `php.ini` (`disable_functions`)
+
+---
+
 ## 🔴 Common Error: "Table doesn't exist"
 
 ```
