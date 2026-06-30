@@ -1052,22 +1052,30 @@ body.theme-dark .ipam-pro,
 
 .ipam-pro .ipam-block-grid {
 	display: grid;
-	gap: 4px;
-	grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+	gap: 5px;
+	grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
 	padding: 16px 20px;
 }
 
 .ipam-pro .ipam-ip-block {
-	aspect-ratio: 1;
+	align-items: center;
 	border: 0;
 	border-radius: 4px;
 	color: #fff;
 	cursor: pointer;
+	display: flex;
 	font-family: var(--ipam-mono);
-	font-size: 10px;
+	font-size: 11px;
 	font-weight: 700;
+	justify-content: center;
+	line-height: 1;
+	min-height: 30px;
 	min-width: 0;
+	overflow: hidden;
+	padding: 4px 2px;
+	text-overflow: ellipsis;
 	transition: transform var(--ipam-transition), filter var(--ipam-transition);
+	white-space: nowrap;
 }
 
 .ipam-pro .ipam-ip-block.used     { background: var(--ipam-red); }

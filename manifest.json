@@ -4,14 +4,9 @@
   "name": "IPAM Pro",
   "version": "1.0.0",
   "namespace": "IPAMPro",
-  "author": "Codex",
+  "author": "Identiqa NMS",
   "description": "Enterprise IP address management, subnet scanning, VLAN inventory, reservations, and Zabbix host synchronization.",
   "actions": {
-    "ipampro.view": {
-      "class": "CControllerIpamPro",
-      "view": "ipampro.view",
-      "layout": "layout.htmlpage"
-    },
     "ipampro.view": {
       "class": "CControllerIpamPro",
       "view": "ipampro.view",
