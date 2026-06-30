@@ -23,7 +23,7 @@ class Module extends CModule {
 		APP::Component()->get('menu.main')
 			->findOrAdd(_('Inventory'))
 				->getSubmenu()
-				->add((new CMenuItem(_('IPAM Pro')))
+				->add((new CMenuItem(_('IPAM')))
 					->setAction('ipampro.view')
 				);
 	}

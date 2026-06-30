@@ -1,4 +1,4 @@
-/* IPAM Pro – Enterprise UI JavaScript */
+/* IPAM – Enterprise UI JavaScript */
 (function () {
 	'use strict';
 
@@ -76,6 +76,39 @@
 	});
 
 	/* ── Edit panel toggle ───────────────────────────────────── */
+	/*
+	 * The edit panel uses position:fixed (see CSS) so it always renders
+	 * above table scroll containers instead of being clipped by
+	 * overflow:auto on .ipam-table-wrap. Because it's fixed, we must
+	 * compute its on-screen coordinates in JS relative to the toggle
+	 * button, and re-clamp them to the viewport so the panel never
+	 * runs off the right or bottom edge of the screen.
+	 */
+	function positionEditPanel(panel, toggle) {
+		var rect = toggle.getBoundingClientRect();
+		var panelWidth  = panel.offsetWidth  || 280;
+		var panelHeight = panel.offsetHeight || 320;
+		var margin = 8;
+
+		var left = rect.right - panelWidth;
+		var top  = rect.bottom + 6;
+
+		// Clamp horizontally
+		if (left < margin) left = margin;
+		if (left + panelWidth > window.innerWidth - margin) {
+			left = window.innerWidth - panelWidth - margin;
+		}
+
+		// If not enough room below, flip above the toggle button
+		if (top + panelHeight > window.innerHeight - margin) {
+			var above = rect.top - panelHeight - 6;
+			top = above > margin ? above : margin;
+		}
+
+		panel.style.left = left + 'px';
+		panel.style.top  = top  + 'px';
+	}
+
 	document.addEventListener('click', function (e) {
 		if (!e.target.closest('.ipam-pro')) return;
 		var toggle = e.target.closest('[data-edit-toggle]');
@@ -87,7 +120,11 @@
 			document.querySelectorAll('.ipam-pro [data-edit-panel].open').forEach(function (p) {
 				p.classList.remove('open');
 			});
-			if (!isOpen) panel.classList.add('open');
+			if (!isOpen) {
+				panel.classList.add('open');
+				// Position after 'open' so offsetWidth/Height are accurate
+				positionEditPanel(panel, toggle);
+			}
 			e.stopPropagation();
 			return;
 		}
@@ -101,6 +138,23 @@
 				p.classList.remove('open');
 			});
 		}
+	});
+
+	/* Reposition open panel on scroll/resize so it tracks its toggle */
+	window.addEventListener('scroll', function () {
+		var openPanel = document.querySelector('.ipam-pro [data-edit-panel].open');
+		if (!openPanel) return;
+		var wrap = openPanel.closest('[data-edit-wrap]');
+		var toggle = wrap && wrap.querySelector('[data-edit-toggle]');
+		if (toggle) positionEditPanel(openPanel, toggle);
+	}, true);
+
+	window.addEventListener('resize', function () {
+		var openPanel = document.querySelector('.ipam-pro [data-edit-panel].open');
+		if (!openPanel) return;
+		var wrap = openPanel.closest('[data-edit-wrap]');
+		var toggle = wrap && wrap.querySelector('[data-edit-toggle]');
+		if (toggle) positionEditPanel(openPanel, toggle);
 	});
 
 	/* ── IP detail dialog ────────────────────────────────────── */

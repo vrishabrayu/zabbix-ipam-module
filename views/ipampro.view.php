@@ -106,7 +106,7 @@ $unused_networks = array_values(array_filter($data['subnets'], static fn($s) =>
 		<div class="ipam-page-brand">
 			<div class="ipam-brand-icon">🌐</div>
 			<div class="ipam-page-title">
-				<h1>IPAM Pro</h1>
+				<h1>IPAM</h1>
 				<p class="ipam-subtitle">IP Address Management · Zabbix Integrated</p>
 			</div>
 		</div>
@@ -146,7 +146,7 @@ $unused_networks = array_values(array_filter($data['subnets'], static fn($s) =>
 		<?php if (!empty($data['setup_required'])): ?>
 			<div class="ipam-setup-notice">
 				<h2>Setup Required – Database Tables Missing</h2>
-				<p>The IPAM Pro module is installed but its database tables have not been created yet. Run the command below on your Zabbix server:</p>
+				<p>The IPAM module is installed but its database tables have not been created yet. Run the command below on your Zabbix server:</p>
 				<pre>mysql -u &lt;zabbix_user&gt; -p &lt;zabbix_database&gt; \
   &lt; /usr/share/zabbix/modules/zabbix-ipam-module/sql/schema.sql</pre>
 				<p>Your DB credentials are in <code>/etc/zabbix/zabbix_server.conf</code> — look for <code>DBUser</code>, <code>DBPassword</code>, <code>DBName</code>. Then reload this page.</p>

@@ -77,7 +77,7 @@ class CControllerIpamPro extends CController {
 			];
 
 			$response = new CControllerResponseData($data);
-			$response->setTitle('IPAM Pro');
+			$response->setTitle('IPAM');
 			$this->setResponse($response);
 			return;
 		}
@@ -142,7 +142,7 @@ class CControllerIpamPro extends CController {
 		];
 
 		$response = new CControllerResponseData($data);
-		$response->setTitle('IPAM Pro');
+		$response->setTitle('IPAM');
 		$this->setResponse($response);
 	}
 

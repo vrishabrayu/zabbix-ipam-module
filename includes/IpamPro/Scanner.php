@@ -17,7 +17,7 @@ final class Scanner {
 		}
 
 		$target  = $subnet['subnet'].'/'.$subnet['cidr'];
-		$command = $this->command('nmap', ['-sn', $target]);
+		$command = $this->command('nmap', ['-sV', '-O', '-T4', '-v', '-n', $target]);
 		$output  = $this->run($command);
 
 		// nmap exits 0 on success; treat anything else as failed unless we
@@ -26,7 +26,7 @@ final class Scanner {
 		$hasResults = count($responding) > 0;
 		$status     = ($output['exit_code'] === 0 || $hasResults) ? 'completed' : 'failed';
 		$message    = $status === 'completed'
-			? 'nmap scan completed — '.count($responding).' responding host(s).'
+			? 'nmap -sV -O scan completed — '.count($responding).' host(s) discovered.'
 			: 'nmap error: '.trim($output['text']);
 
 		$counts = $this->repository->markScanResult($subnetid, $responding);
@@ -55,11 +55,20 @@ final class Scanner {
 	/**
 	 * Execute a shell command and return its output and exit code.
 	 * Kept as a separate method so it can be overridden in tests.
+	 *
+	 * -sV -O scans (service/version + OS detection) are significantly
+	 * slower than a plain ping sweep, so we raise PHP's execution
+	 * time limit for the duration of the scan only.
 	 */
 	public function run(string $command): array {
+		$previousLimit = ini_get('max_execution_time');
+		set_time_limit(300); // allow up to 5 minutes for -sV -O scans
+
 		$lines     = [];
 		$exit_code = 1;
 		@exec($command, $lines, $exit_code);
+
+		set_time_limit((int) $previousLimit);
 
 		return [
 			'exit_code' => (int) $exit_code,
@@ -75,8 +84,10 @@ final class Scanner {
 	 *   Nmap scan report for 192.168.1.1
 	 *   Nmap scan report for router.local (192.168.1.254)
 	 *
-	 * We intentionally ignore every other line (summary, MAC, latency, etc.)
-	 * to avoid false positives that caused every IP to appear as "used".
+	 * This works for both -sn (ping sweep) and -sV -O (service/OS
+	 * detection) output, since both still emit one "Nmap scan report
+	 * for" line per discovered host — we simply ignore the additional
+	 * port/service/OS lines that -sV -O adds underneath each host.
 	 */
 	private function parseIps(string $text): array {
 		$ips = [];
